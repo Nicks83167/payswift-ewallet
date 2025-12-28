@@ -291,6 +291,17 @@
     </div>
 
     <script>
+        // Get username from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const loggedInUser = urlParams.get('user');
+
+        // Update display
+        if (loggedInUser) {
+            document.getElementById('username-display').textContent = loggedInUser;
+        } else {
+            document.getElementById('username-display').textContent = 'User';
+        }
+
         // Configuration for backend API (ready for Phase 2)
         const API_URL = 'http://localhost:3000/api';
         let currentUser = null;
