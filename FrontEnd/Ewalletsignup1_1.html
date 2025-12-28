@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PaySwift - Sign Up</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .signup-container {
+      background: #ffffff;
+      width: 340px;
+      padding: 32px 28px;
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 16px;
+      font-weight: 700;
+      font-size: 22px;
+      color: #4c51bf;
+    }
+
+    .signup-container h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      font-size: 20px;
+      color: #111827;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #374151;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    }
+
+    .hint {
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: none;
+      border-radius: 6px;
+      background: #4f46e5;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn:hover {
+      background: #4338ca;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .message {
+      margin-top: 12px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      text-align: center;
+      display: none;
+    }
+
+    .message.error {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .message.success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .extra {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 14px;
+      color: #4b5563;
+    }
+
+    .extra a {
+      color: #4f46e5;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .extra a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 400px) {
+      .signup-container {
+        width: 90%;
+        padding: 24px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <div class="logo">PaySwift</div>
+    <h2>Create your account</h2>
+
+    <form id="signupForm" novalidate>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          placeholder="Choose a username"
+          autocomplete="username"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email (optional for now)</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter email (optional)"
+          autocomplete="email"
+        />
+        <div class="hint">You can keep this just for frontend; backend will decide later.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Create a password"
+          autocomplete="new-password"
+          required
+        />
+        <div class="hint">At least 6 characters.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirm">Confirm Password</label>
+        <input
+          type="password"
+          id="confirm"
+          placeholder="Re-enter password"
+          autocomplete="new-password"
+          required
+        />
+      </div>
+
+      <button type="submit" class="btn">Sign Up</button>
+    </form>
+
+    <div id="message" class="message"></div>
+
+    <div class="extra">
+      Already have an account?
+      <a href="Ewalletlogin1_1.html" style="color: #667eea; text-decoration: none;">Login</a>
+    </div>
+  </div>
+
+  <script>
+      const form = document.getElementById('signupForm');
+      const msg = document.getElementById('message');
+
+      function showMessage(text, type) {
+          msg.textContent = text;
+          msg.className = 'message ' + type;
+          msg.style.display = 'block';
+      }
+
+      form.addEventListener('submit', async function (e) {
+          e.preventDefault();
+
+          const username = document.getElementById('username').value.trim();
+          const password = document.getElementById('password').value;
+          const confirm = document.getElementById('confirm').value;
+
+          // basic checks on frontend
+          if (!username || !password || !confirm) {
+              showMessage('Username and both password fields are required.', 'error');
+              return;
+          }
+
+          if (password.length < 6) {
+              showMessage('Password must be at least 6 characters.', 'error');
+              return;
+          }
+
+          if (password !== confirm) {
+              showMessage('Passwords do not match.', 'error');
+              return;
+          }
+
+          try {
+              const response = await fetch('http://localhost:3000/api/signup', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ username, password })
+              });
+
+              const data = await response.json();
+
+              if (data.success) {
+                  showMessage(data.message, 'success');
+                  // go to login after 1 second
+                  setTimeout(() => {
+                      window.location.href = 'Ewalletlogin1_1.html';
+                  }, 1000);
+              } else {
+                  showMessage(data.message, 'error');
+              }
+          } catch (err) {
+              showMessage('Error connecting to server', 'error');
+          }
+      });
+
+  </script>
+</body>
+</html>
